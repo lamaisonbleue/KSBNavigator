@@ -6,6 +6,11 @@ import { AppComponent } from './app.component';
 import { AgmExampleComponent } from './agm-example/agm-example.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatButtonModule, MatListModule, MatCardModule, MatChipsModule} from '@angular/material';
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule, Routes } from '@angular/router'
+
+
+const routes: Routes = [{ path: '', component: AgmExampleComponent },]
 
 @NgModule({
   declarations: [
@@ -14,6 +19,7 @@ import {MatButtonModule, MatListModule, MatCardModule, MatChipsModule} from '@an
   ],
   imports: [
     BrowserModule,
+    RouterModule.forRoot(routes),
     AgmCoreModule.forRoot({
       apiKey: environment.maps_api_key,
       libraries: ['places', 'drawing', 'geometry']
@@ -22,7 +28,8 @@ import {MatButtonModule, MatListModule, MatCardModule, MatChipsModule} from '@an
     MatButtonModule,
     MatListModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
