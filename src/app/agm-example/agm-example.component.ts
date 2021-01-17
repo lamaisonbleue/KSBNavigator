@@ -166,9 +166,12 @@ export class AgmExampleComponent implements OnInit {
       path
     );
 
+    this.locations.push({name: 'C' + (this.locations.length - 2), color: 'gray', p: this.pointList});
+
   }
 
   show(location) {
+    this.selected = true;
     console.log(location)
     this.lat = location.p[0].lat
     this.lng = location.p[0].lng
@@ -178,7 +181,6 @@ export class AgmExampleComponent implements OnInit {
 
     location.drawedPolygon.setMap(this.map);
 
-    this.selected = true;
   }
 
 
