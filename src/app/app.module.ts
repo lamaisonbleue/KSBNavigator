@@ -1,34 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AgmCoreModule } from '@agm/core';
-import { environment } from './../environments/environment';
-import { AppComponent } from './app.component';
-import { AgmExampleComponent } from './agm-example/agm-example.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButtonModule, MatListModule, MatCardModule, MatChipsModule} from '@angular/material';
+
 import { AppRoutingModule } from './app-routing.module';
-import { RouterModule, Routes } from '@angular/router'
-
-
-const routes: Routes = [{ path: '', component: AgmExampleComponent },]
+import { AppComponent } from './app.component';
+import { NavigatorComponent } from './navigator/navigator.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AgmExampleComponent
+    NavigatorComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
-    AgmCoreModule.forRoot({
-      apiKey: environment.maps_api_key,
-      libraries: ['places', 'drawing', 'geometry']
-    }),
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatListModule,
-    MatCardModule,
-    MatChipsModule,
     AppRoutingModule
   ],
   providers: [],
