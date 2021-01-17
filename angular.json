@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "agm-example": {
+    "ksbnavigator": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/agm-example",
+            "outputPath": "dist/ksbnavigator",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -64,18 +64,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "agm-example:build"
+            "browserTarget": "ksbnavigator:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "agm-example:build:production"
+              "browserTarget": "ksbnavigator:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "agm-example:build"
+            "browserTarget": "ksbnavigator:build"
           }
         },
         "test": {
@@ -113,16 +113,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "agm-example:serve"
+            "devServerTarget": "ksbnavigator:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "agm-example:serve:production"
+              "devServerTarget": "ksbnavigator:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "agm-example"
+  "defaultProject": "ksbnavigator"
 }
