@@ -3,7 +3,7 @@
 
 
   <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let location of this.locations" (click)="this.show(location)">
+    <mat-list-item role="listitem" *ngFor="let location of this.locations" (click)="this.show(location)" [style.border-color]="location.color">
       {{ location.name }}
     </mat-list-item>
   </mat-list>

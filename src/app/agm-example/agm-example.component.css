@@ -13,16 +13,29 @@ h3{
 button{
   float: right;
 }
+
+
 .mat-list-item{
-  color:green;
-  background-color: #eeeeee;
+  color:rgb(22, 22, 117);
+  background-color: #eeeeee;  
   margin: 1rem;
   margin-left:0;
-  border: none;
+  border: solid;
+  border-style: dotted;
   border-radius: 10px;
+  text-align: center;
+  
 }
+
+
 .display-flex{
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+}
+
+.mat-list-item:active{
+
+  border: solid;
+  border-style: solid;
 }

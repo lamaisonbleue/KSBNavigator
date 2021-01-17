@@ -23,17 +23,17 @@ export class AgmExampleComponent implements OnInit {
   
 
   locations: {name: string, color: string, p: { lat: number; lng: number }[], drawedPolygon?}[] = [
-    {name: 'A1: La Maison Bleue', color: 'gray', p: [ {lat:   49.15540718467235, lng: 8.147882100856773},
+    {name: 'A1: La Maison Bleue', color: 'blue', p: [ {lat:   49.15540718467235, lng: 8.147882100856773},
                                         {lat: 49.155468581296944, lng: 8.148024257934562},
                                         {lat: 49.15554401133156,  lng: 8.147949156082145},
                                         {lat: 49.15548261480045,  lng: 8.147804316795341}]},
-      {name: 'A2: Hühnerstall', color: 'gray', p: [  { lat: 49.155615932885475,  lng: 8.148032304561607},
+      {name: 'A2: Hühnerstall', color: 'yellow', p: [  { lat: 49.155615932885475,  lng: 8.148032304561607},
                                       { lat: 49.15559488268537,   lng: 8.147989389217368},
                                       { lat: 49.15549840248714,   lng: 8.148102041995994},
                                       { lat: 49.15548436898811,   lng: 8.148051080024711},
                                       { lat: 49.15545279360073,   lng: 8.148134228504173},
                                       { lat: 49.15547910642493,   lng: 8.1481932371025    }]},
-    {name: 'B1: Thomas-Nast-Haus', color: 'gray', p: [ { lat: 49.20916451684112, lng: 8.12104250629229 },
+    {name: 'B1: Thomas-Nast-Haus', color: 'green', p: [ { lat: 49.20916451684112, lng: 8.12104250629229 },
                                         { lat: 49.20903484751857,   lng: 8.120972768857904  },
                                         { lat: 49.20902608606559,   lng: 8.121031777456231  },
                                         { lat: 49.208980526485085,  lng: 8.121034459665246  },
@@ -57,7 +57,7 @@ export class AgmExampleComponent implements OnInit {
     this.locations.forEach(location =>{
       const polygon = new google.maps.Polygon({
         paths: location.p,
-        strokeColor: "#FF0000",
+        strokeColor: "black",
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillColor: location.color,//"#FF0000",
