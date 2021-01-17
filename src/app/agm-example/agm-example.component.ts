@@ -11,7 +11,7 @@ declare const google: any;
 export class AgmExampleComponent implements OnInit {
 
   //@ViewChild('map', {static: false}) map: ElementRef;
-
+  selected = false
 
   lat = 49.208898999999995;
   lng = 8.1212122;
@@ -177,6 +177,8 @@ export class AgmExampleComponent implements OnInit {
     location.drawedPolygon.fillColor = 'red'
 
     location.drawedPolygon.setMap(this.map);
+
+    this.selected = true;
   }
 
 

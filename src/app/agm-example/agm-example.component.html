@@ -9,7 +9,7 @@
   </mat-list>
 
 
-
+<div *ngIf="this.selected" >
   <agm-map #map
     [zoom]="18"
     [latitude]="lat"
@@ -31,4 +31,5 @@
   <mat-card *ngIf="selectedArea > 0">
     <span> Selected Area: {{ selectedArea }}m<sup>2</sup> </span>
   </mat-card>
+</div>
 </div>
