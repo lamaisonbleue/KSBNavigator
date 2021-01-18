@@ -12,7 +12,7 @@ export class NavigatorComponent implements AfterViewInit {
   
   // Loading Canvas and Images html elements
   @ViewChild('map') canvasRef: ElementRef;
-  @ViewChild('test') test: ElementRef;
+  
 
  // Canvas Context
   ctx: CanvasRenderingContext2D;
@@ -22,8 +22,8 @@ export class NavigatorComponent implements AfterViewInit {
   clickedPoint: {x: number, y: number} = {x: 0, y: 0};
   img;
 
-  bottomLeft = { lat: 49.208766527316804, lng: 8.12080647189898 };
-  upperRight = { lat: 49.209285205381384, lng: 8.12155212600512 };
+  minCoord = { lat: 49.20875601351599, lng: 8.120809154107995}; //links unten
+  maxCoord = { lat: 49.20930623275571, lng: 8.121560172632165}; // rechts oben
 
   constructor() {    
   }
@@ -35,11 +35,11 @@ export class NavigatorComponent implements AfterViewInit {
           this.longitude  = position.coords.longitude;
           this.latitude   = position.coords.latitude;
           
-
-          const lng =  (this.upperRight.lng  - this.longitude) / (this.upperRight.lng - this.bottomLeft.lng)
-          const lat = (this.upperRight.lat  - this.latitude) / (this.upperRight.lat - this.bottomLeft.lat)
-          console.log({x: lng, y: lat})
-          this.drawCircle({x: lng, y: lat});
+          const lat =  (this.maxCoord.lat  - this.latitude) / (this.maxCoord.lat - this.minCoord.lat)
+          const lng =  ((this.maxCoord.lng  - this.longitude) / (this.maxCoord.lng - this.minCoord.lng))
+          const point = {x: lat, y: 1 - lng}
+          console.log(point)
+          this.drawCircle(point);
 
           setTimeout(() => {
             this.updateLocation();
@@ -61,8 +61,13 @@ export class NavigatorComponent implements AfterViewInit {
       //this.ctx.drawImage(this.img, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
       //this.ctx.drawImage(this.img, 0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight)
       
-      this.ctx.drawImage(this.img, 0, 0, 230, 222)
-      this.updateLocation()
+      //this.ctx.drawImage(this.img, 0, 0, 250, 252)
+      //this.ctx.drawImage(this.img, 0, 0)
+
+      this.ctx.drawImage(this.img, 0, 0, this.img.width,    this.img.height,     // source rectangle
+        0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+      this.updateLocation()      
     });
     this.img.src = "assets/images/thomasnast.png"
 
