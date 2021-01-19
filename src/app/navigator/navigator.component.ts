@@ -9,7 +9,7 @@ export class NavigatorComponent implements AfterViewInit {
   
   longitude  = 0;
   latitude   = 0;
-  
+  mapImagePath = "assets/images/thomasnast.png"//"assets/images/KSB_Map.jpg"
   // Loading Canvas and Images html elements
   @ViewChild('map') canvasRef: ElementRef;
   
@@ -25,6 +25,10 @@ export class NavigatorComponent implements AfterViewInit {
   minCoord = { lat: 49.20875601351599, lng: 8.120809154107995}; //links unten
   maxCoord = { lat: 49.20930623275571, lng: 8.121560172632165}; // rechts oben
 */
+//minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
+//maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
+
+
 minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
 maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
 
@@ -68,8 +72,8 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
 
 
 
-          const point = {x: currentPixelX, y: 1 - currentPixelY}
-          console.log(point)
+          const point = {x: currentPixelX, y: 1 - currentPixelY}  
+          this.clearCanvas();
           this.drawCircle(point);
 
           setTimeout(() => {
@@ -95,16 +99,12 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
       //this.ctx.drawImage(this.img, 0, 0, 250, 252)
       //this.ctx.drawImage(this.img, 0, 0)
 
-      this.ctx.drawImage(this.img, 0, 0, this.img.width,    this.img.height,     // source rectangle
-        0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      //this.ctx.drawImage(this.img, 0, 0);
 
       this.updateLocation()      
     });
-    this.img.src = "assets/images/thomasnast.png"
+    this.img.src = this.mapImagePath
 
-    
-
-    
   }
 
 
@@ -118,6 +118,7 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
   onEvent(event: MouseEvent): void {
     
       this.ctx  = this.canvasRef.nativeElement.getContext('2d');
+      
       this.event = event;
       this.clickedPoint = {x: event.offsetX / this.ctx.canvas.clientWidth, y: event.offsetY / this.ctx.canvas.clientHeight};
       this.drawCircle(this.clickedPoint);
@@ -134,7 +135,7 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
                                       {x: point.x + size, y: point.y + size},
                                       {x: point.x + size, y: point.y - size}, ];
       //this.draw(polygon, 'red', 0.3);
-
+      
       this.drawCircle(this.clickedPoint)
     }
 
@@ -152,8 +153,9 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
       this.ctx.fill();
     }
 
-    drawCircle(point: {x: number, y: number}) {
-      console.log("drwaed");
+    drawCircle(point: {x: number, y: number}) {  
+      console.log(point);
+      
       // this.gameService.gameController.taskController.didEnter(solution)
       // -> stattdessen array der zu suchenden objecte!!!
       this.ctx.fillStyle = 'red';
@@ -168,13 +170,6 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
 
 
 
-    OneEightyDeg = 180.0; //degrees
-    
-    imageSizeW = 600;
-    imageSizeH = 600;
-
-  
-
 }
 
 
@@ -188,6 +183,18 @@ export class GPSPoint {
     this.lat = lat;
   }
 
+  /*function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+    var R = 6378.137; // Radius of earth in KM
+    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
+    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+    return d * 1000; // meters
+}*/
+
     //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
     distanceTo(point: GPSPoint) 
     {
@@ -197,7 +204,7 @@ export class GPSPoint {
       var lon2 = point.lng;
 
 
-      var R = 6378.137; // m
+      var R = 6378137; // m
       var dLat = this.toRad(lat2-lat1);
       var dLon = this.toRad(lon2-lon1);
       lat1 = this.toRad(lat1);
