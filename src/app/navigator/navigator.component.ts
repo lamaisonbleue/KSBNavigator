@@ -197,7 +197,7 @@ export class GPSPoint {
       var lon2 = point.lng;
 
 
-      var R = 6371000; // m
+      var R = 6378.137; // m
       var dLat = this.toRad(lat2-lat1);
       var dLon = this.toRad(lon2-lon1);
       lat1 = this.toRad(lat1);
