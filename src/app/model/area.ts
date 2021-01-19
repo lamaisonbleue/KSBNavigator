@@ -1,4 +1,4 @@
-import { GPSPoint } from "./GPSPoint";
+import { GPSPoint } from "./gpsPoint";
 import { Polygon } from "./polygon";
 
 export interface Area {
