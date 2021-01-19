@@ -31,18 +31,36 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
   constructor() {   
   }
 
+  askForPermission() {
+    navigator.permissions.query({name:'geolocation'}).then(function(result) {
+      if (result.state == 'granted') {
+        alert(result.state);
+       // geoBtn.style.display = 'none';
+      } else if (result.state == 'prompt') {
+        alert(result.state);
+        //geoBtn.style.display = 'none';
+       // navigator.geolocation.getCurrentPosition(revealPosition,positionDenied,geoSettings);
+      } else if (result.state == 'denied') {
+        alert(result.state);
+       // geoBtn.style.display = 'inline';
+      }
+      result.onchange = function() {
+        alert(result.state);
+      }
+    });
+  }
 
   updateLocation(): void{
+    
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position)=>{
           this.longitude  = position.coords.longitude;
           this.latitude   = position.coords.latitude;
 
-          const location = new GPSPoint(this.longitude, this.latitude);
-          
-          var lat =  (this.maxCoord.lat  - this.latitude) / (this.maxCoord.lat - this.minCoord.lat)
-          var lng =  ((this.maxCoord.lng  - this.longitude) / (this.maxCoord.lng - this.minCoord.lng))
+          this.latitude = 49.2089676
+          this.longitude = 8.12091468
 
+          const location = new GPSPoint(this.longitude, this.latitude);
           
 
           const totalDistanceX = this.minCoord.distanceTo(this.maxCoord);
