@@ -7,8 +7,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 })
 export class NavigatorComponent implements AfterViewInit {
   
-  longitude  = 0;
-  latitude   = 0;
+  currentPosition = new GPSPoint(0, 0);
   mapImagePath = "assets/images/thomasnast.png"//"assets/images/KSB_Map.jpg"
   // Loading Canvas and Images html elements
   @ViewChild('map') canvasRef: ElementRef;
@@ -21,17 +20,17 @@ export class NavigatorComponent implements AfterViewInit {
   event: MouseEvent;
   clickedPoint: {x: number, y: number} = {x: 0, y: 0};
   img;
-/*
-  minCoord = { lat: 49.20875601351599, lng: 8.120809154107995}; //links unten
-  maxCoord = { lat: 49.20930623275571, lng: 8.121560172632165}; // rechts oben
-*/
+
+  lowerLeft = new GPSPoint(49.20875601351599, 8.120809154107995); //links unten
+  upperRight = new GPSPoint(49.20930623275571, 8.121560172632165); // rechts oben
+
 //minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
 //maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
 
-
+/*
 minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
 maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
-
+*/
   constructor() {   
   }
 
@@ -58,22 +57,27 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
     
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position)=>{
-          this.longitude  = position.coords.longitude;
-          this.latitude   = position.coords.latitude;
-
-
-          const location = new GPSPoint(this.longitude, this.latitude);
+          this.currentPosition.lat = position.coords.latitude;
+          this.currentPosition.lng = position.coords.longitude;
+          
+         //this.currentPosition = this.upperRight
           
 
-          const totalDistanceX = this.minCoord.distanceTo(this.maxCoord);
+          const totalDistanceX = new GPSPoint(this.lowerLeft.lat, this.upperRight.lng).distanceTo(this.upperRight);
+          const totalDistanceY = new GPSPoint(this.upperRight.lat, this.lowerLeft.lng).distanceTo(this.upperRight);
           
-          const currentPixelX =  this.latitude / totalDistanceX;
-          const currentPixelY =  this.longitude / totalDistanceX;
+          const dx = this.currentPosition.distanceTo(new GPSPoint(this.lowerLeft.lat, this.currentPosition.lng))
+          const dy = this.currentPosition.distanceTo(new GPSPoint(this.currentPosition.lat, this.lowerLeft.lng))
+
+          const currentPixelX =  dx / totalDistanceX;
+          const currentPixelY =  dy / totalDistanceY;
 
 
 
           const point = {x: currentPixelX, y: 1 - currentPixelY}  
-          this.clearCanvas();
+          console.log(point)
+
+          //this.clearCanvas();
           this.drawCircle(point);
 
           setTimeout(() => {
@@ -121,7 +125,6 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
       
       this.event = event;
       this.clickedPoint = {x: event.offsetX / this.ctx.canvas.clientWidth, y: event.offsetY / this.ctx.canvas.clientHeight};
-      this.drawCircle(this.clickedPoint);
 
       // hier statdessen von enterInput HSSolution zurückgeben lassen
     
@@ -136,7 +139,7 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
                                       {x: point.x + size, y: point.y - size}, ];
       //this.draw(polygon, 'red', 0.3);
       
-      this.drawCircle(this.clickedPoint)
+      //this.drawCircle(this.clickedPoint)
     }
 
 
@@ -154,7 +157,7 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
     }
 
     drawCircle(point: {x: number, y: number}) {  
-      console.log(point);
+      
       
       // this.gameService.gameController.taskController.didEnter(solution)
       // -> stattdessen array der zu suchenden objecte!!!
@@ -183,7 +186,12 @@ export class GPSPoint {
     this.lat = lat;
   }
 
-  /*function measure(lat1, lon1, lat2, lon2){  // generally used geo measurement function
+   distanceTo(point: GPSPoint){  // generally used geo measurement function
+    var lat1 = this.lat;
+    var lat2 = point.lat;
+    var lon1 = this.lng;
+    var lon2 = point.lng;
+
     var R = 6378.137; // Radius of earth in KM
     var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
     var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
@@ -193,33 +201,5 @@ export class GPSPoint {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
     return d * 1000; // meters
-}*/
-
-    //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
-    distanceTo(point: GPSPoint) 
-    {
-      var lat1 = this.lat;
-      var lon1 = this.lng;
-      var lat2 = point.lat;
-      var lon2 = point.lng;
-
-
-      var R = 6378137; // m
-      var dLat = this.toRad(lat2-lat1);
-      var dLon = this.toRad(lon2-lon1);
-      lat1 = this.toRad(lat1);
-      lat2 = this.toRad(lat2);
-
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      var d = R * c;
-      return d;
-    }
-
-    // Converts numeric degrees to radians
-    toRad(Value) 
-    {
-        return Value * Math.PI / 180;
-    }
+}
 }
