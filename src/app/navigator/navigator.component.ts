@@ -57,8 +57,6 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
           this.longitude  = position.coords.longitude;
           this.latitude   = position.coords.latitude;
 
-          this.latitude = 49.2089676
-          this.longitude = 8.12091468
 
           const location = new GPSPoint(this.longitude, this.latitude);
           
