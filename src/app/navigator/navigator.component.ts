@@ -21,9 +21,12 @@ export class NavigatorComponent implements AfterViewInit {
   event: MouseEvent;
   clickedPoint: {x: number, y: number} = {x: 0, y: 0};
   img;
-
+/*
   minCoord = { lat: 49.20875601351599, lng: 8.120809154107995}; //links unten
   maxCoord = { lat: 49.20930623275571, lng: 8.121560172632165}; // rechts oben
+*/
+minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
+maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
 
   constructor() {    
   }
@@ -34,10 +37,22 @@ export class NavigatorComponent implements AfterViewInit {
         navigator.geolocation.getCurrentPosition((position)=>{
           this.longitude  = position.coords.longitude;
           this.latitude   = position.coords.latitude;
+
+          const location = new GPSPoint(this.longitude, this.latitude);
           
-          const lat =  (this.maxCoord.lat  - this.latitude) / (this.maxCoord.lat - this.minCoord.lat)
-          const lng =  ((this.maxCoord.lng  - this.longitude) / (this.maxCoord.lng - this.minCoord.lng))
-          const point = {x: lat, y: 1 - lng}
+          var lat =  (this.maxCoord.lat  - this.latitude) / (this.maxCoord.lat - this.minCoord.lat)
+          var lng =  ((this.maxCoord.lng  - this.longitude) / (this.maxCoord.lng - this.minCoord.lng))
+
+          
+
+          const totalDistanceX = this.minCoord.distanceTo(this.maxCoord);
+          
+          const currentPixelX =  this.latitude / totalDistanceX;
+          const currentPixelY =  this.longitude / totalDistanceX;
+
+
+
+          const point = {x: currentPixelX, y: 1 - currentPixelY}
           console.log(point)
           this.drawCircle(point);
 
@@ -133,5 +148,55 @@ export class NavigatorComponent implements AfterViewInit {
       this.ctx.arc(point.x * this.ctx.canvas.width, point.y * this.ctx.canvas.height, 4, 0, 2 * Math.PI);
       
       this.ctx.stroke();
+    }
+
+
+
+    OneEightyDeg = 180.0; //degrees
+    
+    imageSizeW = 600;
+    imageSizeH = 600;
+
+  
+
+}
+
+
+export class GPSPoint {
+  lat: number;
+  lng: number;
+
+
+  constructor(lat: number, lng: number) {
+    this.lng = lng;
+    this.lat = lat;
+  }
+
+    //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+    distanceTo(point: GPSPoint) 
+    {
+      var lat1 = this.lat;
+      var lon1 = this.lng;
+      var lat2 = point.lat;
+      var lon2 = point.lng;
+
+
+      var R = 6371000; // m
+      var dLat = this.toRad(lat2-lat1);
+      var dLon = this.toRad(lon2-lon1);
+      lat1 = this.toRad(lat1);
+      lat2 = this.toRad(lat2);
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c;
+      return d;
+    }
+
+    // Converts numeric degrees to radians
+    toRad(Value) 
+    {
+        return Value * Math.PI / 180;
     }
 }
