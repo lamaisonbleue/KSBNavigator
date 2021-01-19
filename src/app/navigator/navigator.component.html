@@ -1,10 +1,13 @@
 
-<p>latitude: {{this.currentPosition.lat}}, longitude: {{this.currentPosition.lng}}</p>
 
-<div class="container">
-<div class="input-frame center">
+
+<div class="container center">
+<div class="input-frame">
     <div class="box"><img src={{this.getMapImage()}} #taskImg></div>
     <div class="box stack-top"><canvas #map on-click="onEvent($event)" [style.width.px]="taskImg.offsetWidth"
       [style.height.px]="taskImg.offsetHeight"></canvas></div>
 </div>
+
+<div class="info"><p>latitude: {{this.currentPosition.lat}}, longitude: {{this.currentPosition.lng}}</p></div>
 </div>
+
