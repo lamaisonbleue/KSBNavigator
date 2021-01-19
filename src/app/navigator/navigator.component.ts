@@ -77,7 +77,7 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
           const point = {x: currentPixelX, y: 1 - currentPixelY}  
           console.log(point)
 
-          //this.clearCanvas();
+          this.clearCanvas();
           this.drawCircle(point);
 
           setTimeout(() => {
@@ -158,6 +158,7 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
 
     drawCircle(point: {x: number, y: number}) {  
       
+      this.ctx  = this.canvasRef.nativeElement.getContext('2d');
       
       // this.gameService.gameController.taskController.didEnter(solution)
       // -> stattdessen array der zu suchenden objecte!!!
