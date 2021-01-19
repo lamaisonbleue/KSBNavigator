@@ -8,7 +8,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 export class NavigatorComponent implements AfterViewInit {
   
   currentPosition = new GPSPoint(0, 0);
-  mapImagePath = "assets/images/thomasnast.png"//"assets/images/KSB_Map.jpg"
+  mapImagePath = "assets/images/thomasnast2.png"//"assets/images/KSB_Map.jpg"
   // Loading Canvas and Images html elements
   @ViewChild('map') canvasRef: ElementRef;
   
@@ -21,16 +21,27 @@ export class NavigatorComponent implements AfterViewInit {
   clickedPoint: {x: number, y: number} = {x: 0, y: 0};
   img;
 
-  lowerLeft = new GPSPoint(49.20875601351599, 8.120809154107995); //links unten
-  upperRight = new GPSPoint(49.20930623275571, 8.121560172632165); // rechts oben
+//lat = Y
+// long = X
 
+
+//thomasnast2
+lowerLeft = new GPSPoint(49.20409330375299, 8.111271076373926); //links unten
+upperRight = new GPSPoint(49.219680780031794, 8.142513446979395); // rechts oben
+/*
+// thomasnas1
+lowerLeft = new GPSPoint(49.20786697605239, 8.116150238935024); //links unten
+upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
+
+*/
+
+  /*lowerLeft = new GPSPoint(49.20875601351599, 8.120809154107995); //links unten
+  upperRight = new GPSPoint(49.20930623275571, 8.121560172632165); // rechts oben
+*/
 //minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
 //maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
 
-/*
-minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
-maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
-*/
+
   constructor() {   
   }
 
@@ -63,18 +74,20 @@ maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lo
          //this.currentPosition = this.upperRight
           
 
-          const totalDistanceX = new GPSPoint(this.lowerLeft.lat, this.upperRight.lng).distanceTo(this.upperRight);
-          const totalDistanceY = new GPSPoint(this.upperRight.lat, this.lowerLeft.lng).distanceTo(this.upperRight);
+          let totalDistanceX = new GPSPoint(this.lowerLeft.lat, this.upperRight.lng).distanceTo(this.upperRight);
+          let totalDistanceY = new GPSPoint(this.upperRight.lat, this.lowerLeft.lng).distanceTo(this.upperRight);
           
-          const dx = this.currentPosition.distanceTo(new GPSPoint(this.lowerLeft.lat, this.currentPosition.lng))
-          const dy = this.currentPosition.distanceTo(new GPSPoint(this.currentPosition.lat, this.lowerLeft.lng))
+          let dx = this.currentPosition.distanceTo(new GPSPoint(this.lowerLeft.lat, this.currentPosition.lng))
+          let dy = this.currentPosition.distanceTo(new GPSPoint(this.currentPosition.lat, this.lowerLeft.lng))
+
+          
 
           const currentPixelX =  dx / totalDistanceX;
           const currentPixelY =  dy / totalDistanceY;
 
+          
 
-
-          const point = {x: currentPixelX, y: 1 - currentPixelY}  
+          const point = {x: currentPixelY, y:  1 - currentPixelX}  
           console.log(point)
 
           this.clearCanvas();
