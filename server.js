@@ -5,6 +5,19 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
 
+
+
+app.use(express.static(__dirname + '/dist/KSBNavigator'));
+
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
+
+
+const server = http.createServer(app);
+server.listen(port, () => console.log(`App running on: http://localhost:${port}`));
+
+
+
+
 function handlePermission() {
     navigator.permissions.query({name:'geolocation'}).then(function(result) {
       if (result.state == 'granted') {
@@ -29,16 +42,3 @@ function handlePermission() {
   }
   
   handlePermission();
-
-
-app.use(express.static(__dirname + '/dist/KSBNavigator'));
-
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname)));
-
-
-const server = http.createServer(app);
-server.listen(port, () => console.log(`App running on: http://localhost:${port}`));
-
-
-
-
