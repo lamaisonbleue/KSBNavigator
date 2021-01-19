@@ -212,7 +212,8 @@ upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
     }
 
     drawCircle(point: {x: number, y: number}) {  
-      
+      point.x = Math.min(Math.max(0, point.x), point.x);
+      point.y = Math.min(Math.max(0, point.y), point.y);
       this.ctx  = this.canvasRef.nativeElement.getContext('2d');
       
       // this.gameService.gameController.taskController.didEnter(solution)
