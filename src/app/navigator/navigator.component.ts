@@ -30,8 +30,9 @@ export class NavigatorComponent implements AfterViewInit {
     { name: 'KSB',
       mapImagePath: "assets/images/ksb.jpg",
       places: [],
-      lowerLeft: new GPSPoint(49.532216180960106, 8.335809103869432),
-      upperRight: new GPSPoint(49.539822, 8.349803)},//49.53825989380109, 8.349198691271775)},
+
+      lowerLeft: new GPSPoint(49.531529257558326, 8.336260285644531),//49.529954, 8.336239),//49.532216180960106, 8.335809103869432),
+      upperRight: new GPSPoint(49.539717449098745, 8.349134888916016)},//49.539609, 8.349096)},//(49.540093, 8.3496)},
     { name: 'lmb',
       mapImagePath: "assets/images/lmb.jpg",
       places: [], 

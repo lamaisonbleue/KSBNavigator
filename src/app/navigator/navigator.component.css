@@ -36,6 +36,7 @@
     border-radius: 10px;
     border-style: solid;
     border-width: 2px;
+
   
   }
   
@@ -92,4 +93,9 @@
     background-color: white;
     z-index: 99999;
     position: absolute;
+  }
+
+  canvas {
+
+    transform: rotate(9.5deg);
   }
