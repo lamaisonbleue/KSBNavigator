@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Area } from '../model/Area';
-import { GPSPoint } from '../model/GPSPoint';
+import { Area } from '../model/area';
+import { GPSPoint } from '../model/gpsPoint';
 
 @Component({
   selector: 'app-navigator',
