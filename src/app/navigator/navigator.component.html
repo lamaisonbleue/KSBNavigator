@@ -3,7 +3,7 @@
 
 <div class="container">
 <div class="input-frame center">
-    <div class="box"><img src={{this.mapImagePath}} #taskImg></div>
+    <div class="box"><img src={{this.getMapImage()}} #taskImg></div>
     <div class="box stack-top"><canvas #map on-click="onEvent($event)" [style.width.px]="taskImg.offsetWidth"
       [style.height.px]="taskImg.offsetHeight"></canvas></div>
 </div>

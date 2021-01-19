@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Area } from '../model/Area';
+import { GPSPoint } from '../model/GPSPoint';
 
 @Component({
   selector: 'app-navigator',
@@ -12,6 +14,7 @@ export class NavigatorComponent implements AfterViewInit {
   // Loading Canvas and Images html elements
   @ViewChild('map') canvasRef: ElementRef;
   
+  
 
  // Canvas Context
   ctx: CanvasRenderingContext2D;
@@ -21,13 +24,35 @@ export class NavigatorComponent implements AfterViewInit {
   clickedPoint: {x: number, y: number} = {x: 0, y: 0};
   img;
 
+
+
+  areas: Area[] = [
+    { name: 'KSB',
+      mapImagePath: "assets/images/ksb.jpg",
+      places: [],
+      lowerLeft: new GPSPoint(49.532216180960106, 8.335809103869432),
+      upperRight: new GPSPoint(49.539822, 8.349803)},//49.53825989380109, 8.349198691271775)},
+    { name: 'lmb',
+      mapImagePath: "assets/images/lmb.jpg",
+      places: [], 
+      lowerLeft: new GPSPoint(49.15506133804025, 8.146921657828026),
+      upperRight: new GPSPoint(49.155864756319644, 8.148375415114097)},
+    { name: 'landau',
+      mapImagePath: "assets/images/thomasnast2.png",
+      places: [], 
+      lowerLeft: new GPSPoint(49.20409330375299, 8.111271076373926),
+      upperRight: new GPSPoint(49.219680780031794, 8.142513446979395)}
+                  ];
+  
+  currentArea: Area = this.areas[0];
 //lat = Y
 // long = X
 
-
+/*
 //thomasnast2
 lowerLeft = new GPSPoint(49.20409330375299, 8.111271076373926); //links unten
 upperRight = new GPSPoint(49.219680780031794, 8.142513446979395); // rechts oben
+*/
 /*
 // thomasnas1
 lowerLeft = new GPSPoint(49.20786697605239, 8.116150238935024); //links unten
@@ -43,25 +68,40 @@ upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
 
 
   constructor() {   
+    
+  }
+
+  initArea() {
+    this.areas.forEach(area => {
+      const dist = area.lowerLeft.distanceTo(this.currentPosition);
+      if (dist < this.currentArea.lowerLeft.distanceTo(this.currentPosition)){
+        this.currentArea = area;
+      }
+    });
+
+    console.log(this.currentArea.name)
   }
 
   askForPermission() {
     navigator.permissions.query({name:'geolocation'}).then(function(result) {
-      if (result.state == 'granted') {
-        alert(result.state);
+      if (result.state == 'granted' || result.state == 'prompt') {
        // geoBtn.style.display = 'none';
-      } else if (result.state == 'prompt') {
-        alert(result.state);
-        //geoBtn.style.display = 'none';
-       // navigator.geolocation.getCurrentPosition(revealPosition,positionDenied,geoSettings);
-      } else if (result.state == 'denied') {
-        alert(result.state);
+      
+      }  else if (result.state == 'denied') {
+        alert('Kein GPS Verfügbar! Aktiviere die Ortung in den Einstellungen');
        // geoBtn.style.display = 'inline';
       }
       result.onchange = function() {
         alert(result.state);
       }
     });
+
+    navigator.geolocation.getCurrentPosition((position)=>{
+      this.currentPosition.lat = position.coords.latitude;
+      this.currentPosition.lng = position.coords.longitude;
+      console.log(this.currentPosition)
+       this.initArea();
+      });
   }
 
   updateLocation(): void{
@@ -71,14 +111,13 @@ upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
           this.currentPosition.lat = position.coords.latitude;
           this.currentPosition.lng = position.coords.longitude;
           
-         //this.currentPosition = this.upperRight
+          //this.currentPosition = new GPSPoint(49.207803, 8.116118)
           
-
-          let totalDistanceX = new GPSPoint(this.lowerLeft.lat, this.upperRight.lng).distanceTo(this.upperRight);
-          let totalDistanceY = new GPSPoint(this.upperRight.lat, this.lowerLeft.lng).distanceTo(this.upperRight);
+          let totalDistanceX = new GPSPoint(this.currentArea.lowerLeft.lat, this.currentArea.upperRight.lng).distanceTo(this.currentArea.upperRight);
+          let totalDistanceY = new GPSPoint(this.currentArea.upperRight.lat, this.currentArea.lowerLeft.lng).distanceTo(this.currentArea.upperRight);
           
-          let dx = this.currentPosition.distanceTo(new GPSPoint(this.lowerLeft.lat, this.currentPosition.lng))
-          let dy = this.currentPosition.distanceTo(new GPSPoint(this.currentPosition.lat, this.lowerLeft.lng))
+          let dx = this.currentPosition.distanceTo(new GPSPoint(this.currentArea.lowerLeft.lat, this.currentPosition.lng))
+          let dy = this.currentPosition.distanceTo(new GPSPoint(this.currentPosition.lat, this.currentArea.lowerLeft.lng))
 
           
 
@@ -103,6 +142,9 @@ upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
   }
 
   ngAfterViewInit(): void {
+    this.askForPermission();
+
+
     this.ctx  = this.canvasRef.nativeElement.getContext('2d');
 
 
@@ -186,34 +228,10 @@ upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
     }
 
 
+    getMapImage() {
+      return this.currentArea.mapImagePath;
+    }
 
 }
 
 
-export class GPSPoint {
-  lat: number;
-  lng: number;
-
-
-  constructor(lat: number, lng: number) {
-    this.lng = lng;
-    this.lat = lat;
-  }
-
-   distanceTo(point: GPSPoint){  // generally used geo measurement function
-    var lat1 = this.lat;
-    var lat2 = point.lat;
-    var lon1 = this.lng;
-    var lon2 = point.lng;
-
-    var R = 6378.137; // Radius of earth in KM
-    var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180;
-    var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180;
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c;
-    return d * 1000; // meters
-}
-}
