@@ -29,26 +29,6 @@ minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upper
 maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
 
   constructor() {   
-    navigator.permissions.query({name:'geolocation'}).then(function(result) {
-      if (result.state == 'granted') {
-        this.report(result.state);
-        //geoBtn.style.display = 'none';
-      } else if (result.state == 'prompt') {
-        this.report(result.state);
-        //geoBtn.style.display = 'none';
-        //navigator.geolocation.getCurrentPosition(revealPosition,positionDenied,geoSettings);
-      } else if (result.state == 'denied') {
-        this.report(result.state);
-        //geoBtn.style.display = 'inline';
-      }
-      result.onchange = function() {
-        alert('asd');
-      }
-    }); 
-  }
-
-  report(state: string) {
-    alert('Permission ' + state);
   }
 
 
