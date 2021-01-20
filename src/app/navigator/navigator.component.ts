@@ -68,6 +68,7 @@ export class NavigatorComponent implements AfterViewInit {
       this.canvasRef.nativeElement.className = 'ksb'
     }
     console.log(this.currentArea.name)
+    this.updateLocation();
   }
 
   askForPermission() {
@@ -75,7 +76,6 @@ export class NavigatorComponent implements AfterViewInit {
     navigator.permissions.query({name:'geolocation'}).then(function(result) {
       if (result.state == 'granted' || result.state == 'prompt') {
        // geoBtn.style.display = 'none';
-      
       }  else if (result.state == 'denied') {
         alert('Kein GPS Verfügbar! Aktiviere die Ortung in den Einstellungen');
        // geoBtn.style.display = 'inline';
@@ -93,6 +93,7 @@ export class NavigatorComponent implements AfterViewInit {
       });
     } else {
       setTimeout(() => {
+        console.log('erro')
         this.askForPermission();
       }, 500);
     }
@@ -190,7 +191,8 @@ export class NavigatorComponent implements AfterViewInit {
       this.ctx.fill();
     }
 
-    drawCircle(point: {x: number, y: number}) {  
+    drawCircle(point: {x: number, y: number}) { 
+      console.log(point) 
       point.x = Math.min(Math.max(0, point.x), point.x);
       point.y = Math.min(Math.max(0, point.y), point.y);
       
