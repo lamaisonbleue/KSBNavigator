@@ -42,7 +42,7 @@
   
   /*canvas in extra component, dann kann man es besser positionieren*/
   .box{
-    width: 95%;
+    width: 90%;
     height: 90%;
     position: absolute;
   

@@ -71,32 +71,37 @@ export class NavigatorComponent implements AfterViewInit {
   }
 
   askForPermission() {
-    if (navigator.geolocation) {
-    navigator.permissions.query({name:'geolocation'}).then(function(result) {
-      if (result.state == 'granted' || result.state == 'prompt') {
-       // geoBtn.style.display = 'none';
-      }  else if (result.state == 'denied') {
-        alert('Kein GPS Verfügbar! Aktiviere die Ortung in den Einstellungen');
-        this.askForPermission();
-       // geoBtn.style.display = 'inline';
+    if ( navigator.permissions && navigator.permissions.query) {
+      //try permissions APIs first
+        navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
+            // Will return ['granted', 'prompt', 'denied']
+            const permission = result.state;
+            if ( permission === 'granted' || permission === 'prompt' ) {                
+              navigator.geolocation.getCurrentPosition((position)=>{
+                this.currentPosition.lat = position.coords.latitude;
+                this.currentPosition.lng = position.coords.longitude;
+                console.log(this.currentPosition)
+                this.initArea();
+                });
+            }
+        });
+      } else if (navigator.geolocation) {
+      //then Navigation APIs
+      navigator.geolocation.getCurrentPosition((position)=>{
+        this.currentPosition.lat = position.coords.latitude;
+        this.currentPosition.lng = position.coords.longitude;
+        console.log(this.currentPosition)
+        this.initArea();
+        });
+      }else {
+        setTimeout(() => {
+          this.askForPermission()
+        }, 500);
       }
-      result.onchange = function() {
-        alert(result.state);
-      }
-    });
 
-    navigator.geolocation.getCurrentPosition((position)=>{
-      this.currentPosition.lat = position.coords.latitude;
-      this.currentPosition.lng = position.coords.longitude;
-      console.log(this.currentPosition)
-       this.initArea();
-      });
-    } else {
-      setTimeout(() => {
-        console.log('erro')
-        this.askForPermission();
-      }, 500);
-    }
+
+
+    
   }
 
   updateLocation(): void{
@@ -140,7 +145,7 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    this.askForPermission();
+     this.askForPermission();
     this.updateLocation();
 
     this.ctx  = this.canvasRef.nativeElement.getContext('2d');
