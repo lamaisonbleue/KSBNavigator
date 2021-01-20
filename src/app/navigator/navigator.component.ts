@@ -89,7 +89,7 @@ export class NavigatorComponent implements AfterViewInit {
       this.currentPosition.lat = position.coords.latitude;
       this.currentPosition.lng = position.coords.longitude;
       console.log(this.currentPosition)
-       this.initArea();
+       //this.initArea();
       });
     } else {
       setTimeout(() => {
@@ -140,7 +140,7 @@ export class NavigatorComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.askForPermission();
-
+    this.initArea();
 
     this.ctx  = this.canvasRef.nativeElement.getContext('2d');
 
