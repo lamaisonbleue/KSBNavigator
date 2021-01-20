@@ -98,6 +98,11 @@ export class NavigatorComponent implements AfterViewInit {
            
 
         });
+      }else {
+        setTimeout(() => {          
+          this.askForPermission()
+        }, 500);
+        return
       } 
       if (navigator.geolocation) {
         this.initArea();
@@ -106,6 +111,7 @@ export class NavigatorComponent implements AfterViewInit {
         setTimeout(() => {          
           this.askForPermission()
         }, 500);
+        return
       }
 
 
