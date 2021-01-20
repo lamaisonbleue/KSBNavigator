@@ -56,7 +56,7 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   initArea() {
-
+    this.errorMsg = '';
     navigator.geolocation.getCurrentPosition((position)=>{
       this.currentPosition.lat = position.coords.latitude;
       this.currentPosition.lng = position.coords.longitude;
@@ -78,6 +78,7 @@ export class NavigatorComponent implements AfterViewInit {
   }
 
   askForPermission() {
+    this.errorMsg = 'Warte auf Ortung'
     console.log('askForPermission')
     if ( navigator.permissions && navigator.permissions.query) {
       
@@ -101,7 +102,7 @@ export class NavigatorComponent implements AfterViewInit {
         this.initArea();
         
       }else {
-        setTimeout(() => {
+        setTimeout(() => {          
           this.askForPermission()
         }, 500);
       }
