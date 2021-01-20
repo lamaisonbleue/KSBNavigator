@@ -79,7 +79,7 @@ export class NavigatorComponent implements AfterViewInit {
   }
 
   askForPermission() {
-    this.errorMsg = 'Warte auf Ortung'
+    this.errorMsg = 'Aktiviere deine Ortung in den Geräteeinstellungen'
     console.log('askForPermission')
     if ( navigator.permissions && navigator.permissions.query) {
       
