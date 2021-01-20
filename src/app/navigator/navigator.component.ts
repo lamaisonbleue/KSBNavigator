@@ -100,13 +100,7 @@ export class NavigatorComponent implements AfterViewInit {
            
 
         });
-      }else {
-        setTimeout(() => {          
-          this.askForPermission()
-        }, 500);
-        return
-      } 
-      if (navigator.geolocation) {
+      }else if (navigator.geolocation) {
         this.initArea();
         
       }else {
