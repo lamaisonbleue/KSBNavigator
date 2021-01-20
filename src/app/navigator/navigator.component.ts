@@ -56,7 +56,7 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   initArea() {
-    
+    console.log('initArea');
     navigator.geolocation.getCurrentPosition((position)=>{
       this.errorMsg = '';
       this.currentPosition.lat = position.coords.latitude;
@@ -81,6 +81,7 @@ export class NavigatorComponent implements AfterViewInit {
   askForPermission() {
     this.errorMsg = 'Aktiviere deine Ortung in den Geräteeinstellungen'
     console.log('askForPermission')
+    console.log( navigator.permissions && navigator.permissions.query);
     if ( navigator.permissions && navigator.permissions.query) {
       
       //try permissions APIs first
