@@ -56,18 +56,24 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   initArea() {
-    this.areas.forEach(area => {
-      const dist = area.lowerLeft.distanceTo(this.currentPosition);
-      if (dist < this.currentArea.lowerLeft.distanceTo(this.currentPosition)){
-        this.currentArea = area;
-      }
-    });
 
-    if (this.currentArea.name == 'ksb') {
-      console.log('jup')
-      this.canvasRef.nativeElement.className = 'ksb'
-    }
-    console.log(this.currentArea.name)
+    navigator.geolocation.getCurrentPosition((position)=>{
+      this.currentPosition.lat = position.coords.latitude;
+      this.currentPosition.lng = position.coords.longitude;
+
+      this.areas.forEach(area => {
+        const dist = area.lowerLeft.distanceTo(this.currentPosition);
+        if (dist < this.currentArea.lowerLeft.distanceTo(this.currentPosition)){
+          this.currentArea = area;
+        }
+      });
+
+      if (this.currentArea.name == 'ksb') {
+        console.log('jup')
+        this.canvasRef.nativeElement.className = 'ksb'
+      }
+      console.log(this.currentArea.name)
+    });
     this.updateLocation();
   }
 
@@ -92,13 +98,8 @@ export class NavigatorComponent implements AfterViewInit {
         });
       } 
       if (navigator.geolocation) {
-      //then Navigation APIs
-      navigator.geolocation.getCurrentPosition((position)=>{
-        this.currentPosition.lat = position.coords.latitude;
-        this.currentPosition.lng = position.coords.longitude;
-        console.log(this.currentPosition)
         this.initArea();
-        });
+        
       }else {
         setTimeout(() => {
           this.askForPermission()
