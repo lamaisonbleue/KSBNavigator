@@ -129,6 +129,10 @@ export class NavigatorComponent implements AfterViewInit {
     }
   }
 
+  constructor() {
+    this.askForPermission();
+  }
+
   ngAfterViewInit(): void {
     this.askForPermission();
 
