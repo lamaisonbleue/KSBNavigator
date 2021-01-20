@@ -56,8 +56,9 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   initArea() {
-    this.errorMsg = '';
+    
     navigator.geolocation.getCurrentPosition((position)=>{
+      this.errorMsg = '';
       this.currentPosition.lat = position.coords.latitude;
       this.currentPosition.lng = position.coords.longitude;
 
