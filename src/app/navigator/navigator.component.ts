@@ -71,6 +71,7 @@ export class NavigatorComponent implements AfterViewInit {
   }
 
   askForPermission() {
+    if (navigator.geolocation) {
     navigator.permissions.query({name:'geolocation'}).then(function(result) {
       if (result.state == 'granted' || result.state == 'prompt') {
        // geoBtn.style.display = 'none';
@@ -90,6 +91,11 @@ export class NavigatorComponent implements AfterViewInit {
       console.log(this.currentPosition)
        this.initArea();
       });
+    } else {
+      setTimeout(() => {
+        this.askForPermission();
+      }, 500);
+    }
   }
 
   updateLocation(): void{
@@ -129,9 +135,7 @@ export class NavigatorComponent implements AfterViewInit {
     }
   }
 
-  constructor() {
-    this.askForPermission();
-  }
+
 
   ngAfterViewInit(): void {
     this.askForPermission();
