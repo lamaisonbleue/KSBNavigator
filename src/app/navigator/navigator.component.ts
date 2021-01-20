@@ -68,7 +68,6 @@ export class NavigatorComponent implements AfterViewInit {
       this.canvasRef.nativeElement.className = 'ksb'
     }
     console.log(this.currentArea.name)
-    this.updateLocation();
   }
 
   askForPermission() {
@@ -140,6 +139,7 @@ export class NavigatorComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.askForPermission();
+    this.updateLocation();
 
     this.ctx  = this.canvasRef.nativeElement.getContext('2d');
 
