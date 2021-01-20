@@ -77,6 +77,7 @@ export class NavigatorComponent implements AfterViewInit {
        // geoBtn.style.display = 'none';
       }  else if (result.state == 'denied') {
         alert('Kein GPS Verfügbar! Aktiviere die Ortung in den Einstellungen');
+        this.askForPermission();
        // geoBtn.style.display = 'inline';
       }
       result.onchange = function() {
@@ -132,6 +133,7 @@ export class NavigatorComponent implements AfterViewInit {
         });
     } else {
        console.log("No support for geolocation")
+       this.askForPermission();
     }
   }
 
