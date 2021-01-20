@@ -81,7 +81,8 @@ export class NavigatorComponent implements AfterViewInit {
   askForPermission() {
     this.errorMsg = 'Aktiviere deine Ortung in den Geräteeinstellungen'
     console.log('askForPermission')
-    console.log( navigator.permissions && navigator.permissions.query);
+    console.log( navigator.permissions);
+      console.log(navigator.permissions.query);
     if ( navigator.permissions && navigator.permissions.query) {
       
       //try permissions APIs first
