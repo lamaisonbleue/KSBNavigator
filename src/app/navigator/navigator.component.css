@@ -67,7 +67,7 @@
   /*wird garnich genutzt, es wird die größe von .box benutzt*/
   .input-frame {
     height: 90%;
-    width: 90%;
+    width: 100%;
     
     /*bottom: 20px;*/
     
@@ -96,7 +96,5 @@
   }
 
   .ksb {
-    
-    opacity: 0.5;
     transform: rotate(9deg);
   }

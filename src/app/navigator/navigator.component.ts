@@ -143,23 +143,6 @@ export class NavigatorComponent implements AfterViewInit {
 
     this.ctx  = this.canvasRef.nativeElement.getContext('2d');
 
-
-  //this.img = document.getElementById('scream');
-    this.img = new Image();
-    
-    this.img.addEventListener('load', e => {
-      //this.ctx.drawImage(this.img, 0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-      //this.ctx.drawImage(this.img, 0, 0, this.ctx.canvas.clientWidth, this.ctx.canvas.clientHeight)
-      
-      //this.ctx.drawImage(this.img, 0, 0, 250, 252)
-      //this.ctx.drawImage(this.img, 0, 0)
-
-      //this.ctx.drawImage(this.img, 0, 0);
-
-      this.updateLocation()      
-    });
-    this.img.src = this.mapImagePath
-
   }
 
 
