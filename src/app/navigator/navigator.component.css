@@ -95,7 +95,8 @@
     position: absolute;
   }
 
-  canvas {
-
-    transform: rotate(9.5deg);
+  .ksb {
+    
+    opacity: 0.5;
+    transform: rotate(9deg);
   }

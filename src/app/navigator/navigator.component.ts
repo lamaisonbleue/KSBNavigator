@@ -27,12 +27,17 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   areas: Area[] = [
-    { name: 'KSB',
+    { name: 'ksb',
       mapImagePath: "assets/images/ksb.jpg",
       places: [],
-
-      lowerLeft: new GPSPoint(49.531529257558326, 8.336260285644531),//49.529954, 8.336239),//49.532216180960106, 8.335809103869432),
-      upperRight: new GPSPoint(49.539717449098745, 8.349134888916016)},//49.539609, 8.349096)},//(49.540093, 8.3496)},
+    /**lowerLeft: new GPSPoint(49.531529257558326, 8.336260285644531),//49.529954, 8.336239),//49.532216180960106, 8.335809103869432),
+      upperRight: new GPSPoint(49.539717449098745, 8.349134888916016)}, */
+      /**
+       * lowerLeft: new GPSPoint(49.531529257558326, 8.336260285644531),//49.529954, 8.336239),//49.532216180960106, 8.335809103869432),
+      upperRight: new GPSPoint(49.539357449098745, 8.349134888916016)}
+       */
+      lowerLeft: new GPSPoint(49.531949257558326, 8.33630090285644531),//49.529954, 8.336239),//49.532216180960106, 8.335809103869432),
+      upperRight: new GPSPoint(49.539057449098745, 8.34974888916016)},//49.539609, 8.349096)},//(49.540093, 8.3496)},
     { name: 'lmb',
       mapImagePath: "assets/images/lmb.jpg",
       places: [], 
@@ -49,28 +54,6 @@ export class NavigatorComponent implements AfterViewInit {
 //lat = Y
 // long = X
 
-/*
-//thomasnast2
-lowerLeft = new GPSPoint(49.20409330375299, 8.111271076373926); //links unten
-upperRight = new GPSPoint(49.219680780031794, 8.142513446979395); // rechts oben
-*/
-/*
-// thomasnas1
-lowerLeft = new GPSPoint(49.20786697605239, 8.116150238935024); //links unten
-upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
-
-*/
-
-  /*lowerLeft = new GPSPoint(49.20875601351599, 8.120809154107995); //links unten
-  upperRight = new GPSPoint(49.20930623275571, 8.121560172632165); // rechts oben
-*/
-//minCoord: GPSPoint = new GPSPoint(49.20875601351599, 8.121560172632165); //upperLeft
-//maxCoord: GPSPoint = new GPSPoint( 49.20930623275571,  8.120809154107995); // lowerRight
-
-
-  constructor() {   
-    
-  }
 
   initArea() {
     this.areas.forEach(area => {
@@ -80,6 +63,10 @@ upperRight = new GPSPoint(49.211778026003046, 8.124153950635463); // rechts oben
       }
     });
 
+    if (this.currentArea.name == 'ksb') {
+      console.log('jup')
+      this.canvasRef.nativeElement.className = 'ksb'
+    }
     console.log(this.currentArea.name)
   }
 
