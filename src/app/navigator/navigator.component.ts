@@ -15,7 +15,7 @@ export class NavigatorComponent implements AfterViewInit {
   @ViewChild('map') canvasRef: ElementRef;
   
   
-
+  errorMsg = ''
  // Canvas Context
   ctx: CanvasRenderingContext2D;
   answeredClass = 'currentColor';
@@ -80,7 +80,13 @@ export class NavigatorComponent implements AfterViewInit {
             // Will return ['granted', 'prompt', 'denied']
             const permission = result.state;
             console.log(permission)
-            
+             if (permission == 'denied') {
+               this.errorMsg = 'Aktiviere die Ortung für deinen Broweser in den Einstellungen'
+              setTimeout(() => {
+                this.askForPermission()
+              }, 500);
+              return
+             } 
            
 
         });
