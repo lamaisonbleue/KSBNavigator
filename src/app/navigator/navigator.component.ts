@@ -55,7 +55,7 @@ export class NavigatorComponent implements AfterViewInit {
 // long = X
 
 
-  initArea() {
+  public initArea() {
     console.log('initArea');
     navigator.geolocation.getCurrentPosition((position)=>{
       this.errorMsg = '';
@@ -75,7 +75,6 @@ export class NavigatorComponent implements AfterViewInit {
       }
       console.log(this.currentArea.name)
     });
-    this.updateLocation();
   }
 
   askForPermission() {
@@ -98,7 +97,8 @@ export class NavigatorComponent implements AfterViewInit {
            
 
         });
-      }else if (navigator.geolocation) {
+      }
+      if (navigator.geolocation) {
         this.initArea();
         
       }else {
@@ -154,7 +154,8 @@ export class NavigatorComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-     this.askForPermission();
+     this.askForPermission();     
+     this.updateLocation();
     
 
     this.ctx  = this.canvasRef.nativeElement.getContext('2d');
