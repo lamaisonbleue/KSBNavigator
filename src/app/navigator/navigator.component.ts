@@ -72,21 +72,20 @@ export class NavigatorComponent implements AfterViewInit {
   }
 
   askForPermission() {
+    console.log('askForPermission')
     if ( navigator.permissions && navigator.permissions.query) {
+      
       //try permissions APIs first
         navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
             // Will return ['granted', 'prompt', 'denied']
             const permission = result.state;
-            if ( permission === 'granted' || permission === 'prompt' ) {                
-              navigator.geolocation.getCurrentPosition((position)=>{
-                this.currentPosition.lat = position.coords.latitude;
-                this.currentPosition.lng = position.coords.longitude;
-                console.log(this.currentPosition)
-                this.initArea();
-                });
-            }
+            console.log(permission)
+            
+           
+
         });
-      } else if (navigator.geolocation) {
+      } 
+      if (navigator.geolocation) {
       //then Navigation APIs
       navigator.geolocation.getCurrentPosition((position)=>{
         this.currentPosition.lat = position.coords.latitude;
